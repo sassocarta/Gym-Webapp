@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gym Workout & PR Log</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <div class="container">
+    <h1> Gym Log & PR</h1>
+
+    <!-- FORM INSERIMENTO SET -->
+    <div class="card">
+      <h2>Registra Serie</h2>
+      <form id="workout-form">
+        <div class="form-group">
+          <label for="exercise">Esercizio</label>
+          <select id="exercise" required>
+            <option value="" disabled selected>Seleziona esercizio...</option>
+            <option value="Panca Piana">Panca Piana</option>
+            <option value="Squat">Squat</option>
+            <option value="Stacco da Terra">Stacco da Terra</option>
+            <option value="Trazioni">Trazioni</option>
+            <option value="Military Press">Military Press</option>
+          </select>
+        </div>
+
+        <div class="row">
+          <div class="form-group">
+            <label for="weight">Peso (kg)</label>
+            <input type="number" id="weight" min="0" step="0.5" placeholder="es. 80" required>
+          </div>
+          <div class="form-group">
+            <label for="reps">Reps</label>
+            <input type="number" id="reps" min="1" placeholder="es. 8" required>
+          </div>
+        </div>
+
+        <button type="submit">Salva Serie</button>
+      </form>
+    </div>
+
+    <!-- SEZIONE RECORD PERSONALI (PR) -->
+    <div class="card">
+      <h2> I Miei PR (Massimali)</h2>
+      <ul id="pr-list">
+        <p class="empty-msg">Nessun record registrato finora.</p>
+      </ul>
+    </div>
+
+    <!-- SEZIONE STORICO ULTIME SERIE -->
+    <div class="card">
+      <h2> Ultimi Allenamenti</h2>
+      <ul id="history-list">
+        <p class="empty-msg">Nessuna serie salvata.</p>
+      </ul>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
