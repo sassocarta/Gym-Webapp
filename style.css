@@ -1,3 +1,4 @@
+/* STILI GENERALI (Dark Mode) */
 * {
   box-sizing: border-box;
   margin: 0;
@@ -88,6 +89,40 @@ button:hover {
   background-color: #d32f2f;
 }
 
+/* STILI TIMER */
+#timer-display {
+  font-size: 2.5rem;
+  font-weight: bold;
+  text-align: center;
+  color: #fff;
+  margin: 10px 0;
+}
+
+.timer-controls {
+  display: flex;
+  gap: 8px;
+}
+
+.btn-sec {
+  background-color: #2a2a2a;
+  color: #aaa;
+  padding: 8px;
+  font-size: 0.9rem;
+}
+
+.btn-sec:hover {
+  background-color: #333;
+  color: #fff;
+}
+
+.btn-action {
+  background-color: #2e7d32;
+}
+
+.btn-action:hover {
+  background-color: #1b5e20;
+}
+
 /* LISTE STORICO E PR */
 ul {
   list-style: none;
@@ -105,13 +140,40 @@ li {
   align-items: center;
 }
 
+.pr-details {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 2px;
+}
+
 .pr-badge {
   background-color: #ffb703;
   color: #000;
   font-weight: bold;
-  padding: 3px 8px;
+  padding: 2px 6px;
   border-radius: 4px;
-  font-size: 0.8rem;
+  font-size: 0.75rem;
+}
+
+.estimated-1rm {
+  font-size: 0.75rem;
+  color: #888;
+}
+
+.delete-btn {
+  background: none;
+  border: none;
+  color: #ff3e3e;
+  font-size: 0.9rem;
+  cursor: pointer;
+  width: auto;
+  padding: 4px 8px;
+}
+
+.delete-btn:hover {
+  background: none;
+  color: #ff6b6b;
 }
 
 .empty-msg {

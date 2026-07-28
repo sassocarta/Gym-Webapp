@@ -9,7 +9,7 @@
 <body>
 
   <div class="container">
-    <h1> Gym Log & PR</h1>
+    <h1>Gym Log & PR</h1>
 
     <!-- FORM INSERIMENTO SET -->
     <div class="card">
@@ -24,6 +24,8 @@
             <option value="Stacco da Terra">Stacco da Terra</option>
             <option value="Trazioni">Trazioni</option>
             <option value="Military Press">Military Press</option>
+            <option value="Dip Parallel">Dip Parallele</option>
+            <option value="Rematore">Rematore</option>
           </select>
         </div>
 
@@ -42,9 +44,21 @@
       </form>
     </div>
 
+    <!-- NUOVA FUNZIONALITÀ: TIMER RECUPERO -->
+    <div class="card timer-card">
+      <h2>Timer Recupero</h2>
+      <div id="timer-display">01:30</div>
+      <div class="timer-controls">
+        <button type="button" class="btn-sec" onclick="setTimer(60)">60s</button>
+        <button type="button" class="btn-sec" onclick="setTimer(90)">90s</button>
+        <button type="button" class="btn-sec" onclick="setTimer(120)">120s</button>
+        <button type="button" class="btn-action" id="start-timer-btn" onclick="toggleTimer()">Avvia</button>
+      </div>
+    </div>
+
     <!-- SEZIONE RECORD PERSONALI (PR) -->
     <div class="card">
-      <h2> I Miei PR (Massimali)</h2>
+      <h2>I Miei PR (Massimali)</h2>
       <ul id="pr-list">
         <p class="empty-msg">Nessun record registrato finora.</p>
       </ul>
@@ -52,7 +66,7 @@
 
     <!-- SEZIONE STORICO ULTIME SERIE -->
     <div class="card">
-      <h2> Ultimi Allenamenti</h2>
+      <h2>Ultimi Allenamenti</h2>
       <ul id="history-list">
         <p class="empty-msg">Nessuna serie salvata.</p>
       </ul>
