@@ -55,6 +55,7 @@ function toggleTimer() {
 // SALVATAGGIO E AGGIORNAMENTO
 function updateApp() {
   localStorage.setItem('gymLogs', JSON.stringify(logs));
+  renderStats();
   renderHistory();
   renderPRs();
 }
@@ -65,10 +66,25 @@ function deleteLog(id) {
   updateApp();
 }
 
-// CALCOLO 1RM TEORICO (Formula di Epley: W * (1 + r/30))
+// CALCOLO 1RM TEORICO
 function calculate1RM(weight, reps) {
   if (reps === 1) return weight;
   return Math.round(weight * (1 + reps / 30));
+}
+
+// ESPORTAZIONE JSON
+function exportData() {
+  if (logs.length === 0) {
+    alert("Nessun dato da esportare.");
+    return;
+  }
+  const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(logs, null, 2));
+  const dlAnchorElem = document.createElement('a');
+  dlAnchorElem.setAttribute("href", dataStr);
+  dlAnchorElem.setAttribute("download", "gym_backup.json");
+  document.body.appendChild(dlAnchorElem); // Necessario per Firefox
+  dlAnchorElem.click();
+  document.body.removeChild(dlAnchorElem);
 }
 
 // GESTIONE INVIO FORM
@@ -78,17 +94,33 @@ form.addEventListener('submit', (e) => {
   const exercise = document.getElementById('exercise').value;
   const weight = parseFloat(document.getElementById('weight').value);
   const reps = parseInt(document.getElementById('reps').value);
-  const date = new Date().toLocaleDateString('it-IT');
+  
+  // Aggiunto l'orario oltre alla data
+  const now = new Date();
+  const dateStr = now.toLocaleDateString('it-IT');
+  const timeStr = now.toLocaleTimeString('it-IT', { hour: '2-digit', minute: '2-digit' });
+  const dateTime = `${dateStr} alle ${timeStr}`;
 
-  const newLog = { id: Date.now(), exercise, weight, reps, date };
+  const newLog = { id: Date.now(), exercise, weight, reps, date: dateTime };
 
   logs.unshift(newLog);
   updateApp();
 
-  // Reset dei campi peso e reps
   document.getElementById('weight').value = '';
   document.getElementById('reps').value = '';
 });
+
+// RENDERING STATISTICHE GLOBALI
+function renderStats() {
+  document.getElementById('stat-sets').textContent = logs.length;
+  
+  let totalVolume = 0;
+  logs.forEach(item => {
+    totalVolume += (item.weight * item.reps);
+  });
+  
+  document.getElementById('stat-volume').textContent = totalVolume + ' kg';
+}
 
 // RENDERING STORICO
 function renderHistory() {
