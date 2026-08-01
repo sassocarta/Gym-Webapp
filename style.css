@@ -92,7 +92,6 @@ input, select {
 select optgroup {
   background-color: #1e1e1e;
   color: #aaa;
-  font-style: normal;
   font-weight: bold;
 }
 
@@ -104,6 +103,11 @@ select option {
 input:focus, select:focus {
   outline: none;
   border-color: #ff3e3e;
+}
+
+.hidden-input {
+  display: none;
+  margin-top: 10px;
 }
 
 .row {
@@ -183,6 +187,14 @@ li {
   align-items: center;
 }
 
+.history-date-header {
+  font-size: 0.9rem;
+  color: #ffb703;
+  margin: 15px 0 10px 0;
+  border-bottom: 1px solid #333;
+  padding-bottom: 5px;
+}
+
 .pr-details {
   display: flex;
   flex-direction: column;
@@ -233,4 +245,36 @@ li {
   font-size: 0.9rem;
   color: #aaa;
   margin-bottom: 15px;
+}
+
+/* NOTIFICHE TOAST */
+#toast-container {
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  z-index: 1000;
+}
+
+.toast {
+  background-color: #333;
+  color: #fff;
+  padding: 12px 24px;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+  font-size: 0.9rem;
+  animation: slideUp 0.3s ease-out, fadeOut 0.5s ease-in 2.5s forwards;
+}
+
+@keyframes slideUp {
+  from { transform: translateY(100%); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+@keyframes fadeOut {
+  from { opacity: 1; }
+  to { opacity: 0; }
 }

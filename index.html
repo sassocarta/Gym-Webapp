@@ -11,7 +11,7 @@
   <div class="container">
     <h1>Gym Log & PR</h1>
 
-    <!-- NUOVA FUNZIONALITA: DASHBOARD STATISTICHE -->
+    <!-- DASHBOARD STATISTICHE -->
     <div class="card">
       <h2>Statistiche Globali</h2>
       <div class="stats-grid">
@@ -26,13 +26,13 @@
       </div>
     </div>
 
-    <!-- FORM INSERIMENTO SET MIGLIORATO -->
+    <!-- FORM INSERIMENTO SET -->
     <div class="card">
       <h2>Registra Serie</h2>
       <form id="workout-form">
         <div class="form-group">
           <label for="exercise">Esercizio</label>
-          <select id="exercise" required>
+          <select id="exercise" onchange="toggleCustomExercise()" required>
             <option value="" disabled selected>Seleziona esercizio...</option>
             <optgroup label="Petto e Tricipiti">
               <option value="Panca Piana">Panca Piana</option>
@@ -50,7 +50,12 @@
               <option value="Military Press">Military Press</option>
               <option value="Alzate Laterali">Alzate Laterali</option>
             </optgroup>
+            <optgroup label="Altro">
+              <option value="custom">Inserisci manualmente...</option>
+            </optgroup>
           </select>
+          <!-- Input nascosto per l'esercizio personalizzato -->
+          <input type="text" id="custom-exercise-input" class="hidden-input" placeholder="Scrivi il nome dell'esercizio...">
         </div>
 
         <div class="row">
@@ -88,22 +93,29 @@
       </ul>
     </div>
 
-    <!-- SEZIONE STORICO -->
+    <!-- SEZIONE STORICO RAGGRUPPATO -->
     <div class="card">
       <h2>Ultimi Allenamenti</h2>
-      <ul id="history-list">
+      <div id="history-container">
         <p class="empty-msg">Nessuna serie salvata.</p>
-      </ul>
+      </div>
     </div>
 
-    <!-- NUOVA FUNZIONALITA: ESPORTA DATI -->
+    <!-- GESTIONE DATI -->
     <div class="card settings-card">
       <h2>Gestione Dati</h2>
-      <p class="settings-desc">Scarica un file JSON con tutto il tuo storico allenamenti.</p>
-      <button type="button" class="btn-sec" onclick="exportData()">Scarica Backup JSON</button>
+      <p class="settings-desc">Esporta o ripristina il tuo storico allenamenti.</p>
+      <div class="row">
+        <button type="button" class="btn-sec" onclick="exportData()">Esporta JSON</button>
+        <button type="button" class="btn-sec" onclick="document.getElementById('import-file').click()">Importa JSON</button>
+        <input type="file" id="import-file" accept=".json" style="display: none;" onchange="importData(event)">
+      </div>
     </div>
 
   </div>
+
+  <!-- Contenitore Notifiche Toast -->
+  <div id="toast-container"></div>
 
   <script src="script.js"></script>
 </body>
