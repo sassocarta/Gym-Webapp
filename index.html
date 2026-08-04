@@ -2,121 +2,265 @@
 <html lang="it">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Gym Workout & PR Log</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+  <title>Gym Log & PR</title>
+  
+  <!-- Script di Chart.js -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+  
+  <!-- Collegamento al file CSS esterno -->
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-  <div class="container">
-    <h1>Gym Log & PR</h1>
+<div class="shell">
 
-    <!-- DASHBOARD STATISTICHE -->
-    <div class="card">
-      <h2>Statistiche Globali</h2>
-      <div class="stats-grid">
-        <div class="stat-box">
-          <span class="stat-label">Serie Totali</span>
-          <span class="stat-value" id="stat-sets">0</span>
-        </div>
-        <div class="stat-box">
-          <span class="stat-label">Volume Totale</span>
-          <span class="stat-value" id="stat-volume">0 kg</span>
-        </div>
+  <!-- HEADER -->
+  <header class="app-header">
+    <h1>🏋️ Gym<span class="dot">.</span>Log</h1>
+  </header>
+
+  <!-- TABS -->
+  <nav class="tab-bar">
+    <button class="tab-btn active" onclick="switchTab('log')" id="tab-log">
+      <span class="tab-icon">📝</span> Log
+    </button>
+    <button class="tab-btn" onclick="switchTab('history')" id="tab-history">
+      <span class="tab-icon">📋</span> Storico
+    </button>
+    <button class="tab-btn" onclick="switchTab('pr')" id="tab-pr">
+      <span class="tab-icon">🏆</span> PR
+    </button>
+    <button class="tab-btn" onclick="switchTab('charts')" id="tab-charts">
+      <span class="tab-icon">📈</span> Grafici
+    </button>
+    <button class="tab-btn" onclick="switchTab('settings')" id="tab-settings">
+      <span class="tab-icon">⚙️</span> Dati
+    </button>
+  </nav>
+
+  <!-- ═══════════ PANEL: LOG ═══════════ -->
+  <div class="panel active" id="panel-log">
+
+    <!-- Stats -->
+    <div class="stats-row">
+      <div class="stat-tile">
+        <div class="label">Serie Totali</div>
+        <div class="value" id="stat-sets">0</div>
+        <div class="sub">tutti i tempi</div>
+      </div>
+      <div class="stat-tile">
+        <div class="label">Volume Totale</div>
+        <div class="value" id="stat-volume">0</div>
+        <div class="sub">kg</div>
+      </div>
+      <div class="stat-tile">
+        <div class="label">Oggi</div>
+        <div class="value" id="stat-today">0</div>
+        <div class="sub">serie</div>
+      </div>
+      <div class="stat-tile">
+        <div class="label">Esercizi</div>
+        <div class="value" id="stat-exercises">0</div>
+        <div class="sub">distinti</div>
       </div>
     </div>
 
-    <!-- FORM INSERIMENTO SET -->
+    <!-- Form -->
     <div class="card">
-      <h2>Registra Serie</h2>
-      <form id="workout-form">
-        <div class="form-group">
+      <div class="card-title">Registra Serie</div>
+      <form id="workout-form" class="form-grid">
+
+        <div class="field">
           <label for="exercise">Esercizio</label>
           <select id="exercise" onchange="toggleCustomExercise()" required>
-            <option value="" disabled selected>Seleziona esercizio...</option>
+            <option value="" disabled selected>Seleziona esercizio…</option>
             <optgroup label="Petto e Tricipiti">
               <option value="Panca Piana">Panca Piana</option>
               <option value="Panca Inclinata">Panca Inclinata</option>
+              <option value="Panca Declinata">Panca Declinata</option>
               <option value="Dip Parallele">Dip Parallele</option>
+              <option value="Croci Cavi">Croci Cavi</option>
             </optgroup>
             <optgroup label="Dorso e Bicipiti">
               <option value="Trazioni">Trazioni</option>
-              <option value="Rematore">Rematore</option>
+              <option value="Lat Machine">Lat Machine</option>
+              <option value="Rematore Bilanciere">Rematore Bilanciere</option>
+              <option value="Rematore Manubrio">Rematore Manubrio</option>
               <option value="Stacco da Terra">Stacco da Terra</option>
+              <option value="Curl Bilanciere">Curl Bilanciere</option>
+              <option value="Curl Manubri">Curl Manubri</option>
             </optgroup>
-            <optgroup label="Gambe e Spalle">
+            <optgroup label="Gambe">
               <option value="Squat">Squat</option>
               <option value="Pressa">Pressa</option>
+              <option value="Affondi">Affondi</option>
+              <option value="Leg Curl">Leg Curl</option>
+              <option value="Leg Extension">Leg Extension</option>
+              <option value="Calf Raises">Calf Raises</option>
+            </optgroup>
+            <optgroup label="Spalle">
               <option value="Military Press">Military Press</option>
               <option value="Alzate Laterali">Alzate Laterali</option>
+              <option value="Arnold Press">Arnold Press</option>
+              <option value="Face Pull">Face Pull</option>
+            </optgroup>
+            <optgroup label="Core">
+              <option value="Plank">Plank</option>
+              <option value="Crunch">Crunch</option>
+              <option value="Ab Wheel">Ab Wheel</option>
             </optgroup>
             <optgroup label="Altro">
-              <option value="custom">Inserisci manualmente...</option>
+              <option value="custom">Inserisci manualmente…</option>
             </optgroup>
           </select>
-          <!-- Input nascosto per l'esercizio personalizzato -->
-          <input type="text" id="custom-exercise-input" class="hidden-input" placeholder="Scrivi il nome dell'esercizio...">
+          <input type="text" id="custom-exercise-input" class="hidden-field" placeholder="Nome esercizio…" autocomplete="off">
         </div>
 
-        <div class="row">
-          <div class="form-group">
+        <div class="row-2">
+          <div class="field">
             <label for="weight">Peso (kg)</label>
-            <input type="number" id="weight" min="0" step="0.5" placeholder="es. 80" required>
+            <input type="number" id="weight" min="0" step="0.5" placeholder="80" required inputmode="decimal">
           </div>
-          <div class="form-group">
+          <div class="field">
             <label for="reps">Reps</label>
-            <input type="number" id="reps" min="1" placeholder="es. 8" required>
+            <input type="number" id="reps" min="1" placeholder="8" required inputmode="numeric">
           </div>
         </div>
 
-        <button type="submit">Salva Serie</button>
+        <div class="field">
+          <label for="notes">Note (opzionale)</label>
+          <input type="text" id="notes" placeholder="es. RPE 8, pausa corta…" autocomplete="off">
+        </div>
+
+        <button type="submit" class="btn btn-primary">💾 Salva Serie</button>
       </form>
     </div>
 
-    <!-- TIMER RECUPERO -->
-    <div class="card timer-card">
-      <h2>Timer Recupero</h2>
-      <div id="timer-display">01:30</div>
-      <div class="timer-controls">
-        <button type="button" class="btn-sec" onclick="setTimer(60)">60s</button>
-        <button type="button" class="btn-sec" onclick="setTimer(90)">90s</button>
-        <button type="button" class="btn-sec" onclick="setTimer(120)">120s</button>
-        <button type="button" class="btn-action" id="start-timer-btn" onclick="toggleTimer()">Avvia</button>
-      </div>
-    </div>
-
-    <!-- SEZIONE RECORD PERSONALI -->
+    <!-- Timer -->
     <div class="card">
-      <h2>I Miei PR (Massimali)</h2>
-      <ul id="pr-list">
-        <p class="empty-msg">Nessun record registrato finora.</p>
-      </ul>
-    </div>
-
-    <!-- SEZIONE STORICO RAGGRUPPATO -->
-    <div class="card">
-      <h2>Ultimi Allenamenti</h2>
-      <div id="history-container">
-        <p class="empty-msg">Nessuna serie salvata.</p>
+      <div class="card-title">⏱ Timer Recupero</div>
+      <div id="timer-display" class="timer-display">01:30</div>
+      <div class="timer-presets">
+        <button class="btn btn-ghost" onclick="setTimer(45)">45s</button>
+        <button class="btn btn-ghost" onclick="setTimer(60)">60s</button>
+        <button class="btn btn-ghost" onclick="setTimer(90)">90s</button>
+        <button class="btn btn-ghost" onclick="setTimer(120)">2m</button>
+        <button class="btn btn-ghost" onclick="setTimer(180)">3m</button>
       </div>
-    </div>
-
-    <!-- GESTIONE DATI -->
-    <div class="card settings-card">
-      <h2>Gestione Dati</h2>
-      <p class="settings-desc">Esporta o ripristina il tuo storico allenamenti.</p>
-      <div class="row">
-        <button type="button" class="btn-sec" onclick="exportData()">Esporta JSON</button>
-        <button type="button" class="btn-sec" onclick="document.getElementById('import-file').click()">Importa JSON</button>
-        <input type="file" id="import-file" accept=".json" style="display: none;" onchange="importData(event)">
-      </div>
+      <button class="btn btn-primary" id="timer-btn" onclick="toggleTimer()">▶ Avvia</button>
     </div>
 
   </div>
 
-  <!-- Contenitore Notifiche Toast -->
-  <div id="toast-container"></div>
+  <!-- ═══════════ PANEL: HISTORY ═══════════ -->
+  <div class="panel" id="panel-history">
+    <div class="card">
+      <div class="card-title">Ultimi Allenamenti</div>
+      <div id="history-container">
+        <div class="empty">Nessuna serie registrata.</div>
+      </div>
+    </div>
+  </div>
 
-  <script src="script.js"></script>
+  <!-- ═══════════ PANEL: PR ═══════════ -->
+  <div class="panel" id="panel-pr">
+    <div class="card">
+      <div class="card-title">Record Personali</div>
+      <div id="pr-container">
+        <div class="empty">Nessun record registrato.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════ PANEL: CHARTS ═══════════ -->
+  <div class="panel" id="panel-charts">
+    <div class="card">
+      <div class="card-title">Progressi nel Tempo</div>
+      <div class="chart-exercise-selector field">
+        <label for="chart-exercise-select">Scegli esercizio</label>
+        <select id="chart-exercise-select" onchange="renderChart()">
+          <option value="" disabled selected>Seleziona esercizio…</option>
+        </select>
+      </div>
+      <div class="chart-wrap">
+        <canvas id="progress-chart"></canvas>
+      </div>
+      <div id="chart-empty" class="chart-empty" style="display:none">Nessun dato per questo esercizio.</div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">Volume Settimanale</div>
+      <div class="chart-wrap">
+        <canvas id="volume-chart"></canvas>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════ PANEL: SETTINGS ═══════════ -->
+  <div class="panel" id="panel-settings">
+    <div class="card">
+      <div class="card-title">Gestione Dati</div>
+      <div class="settings-row">
+
+        <div class="settings-item">
+          <div class="info">
+            <div class="title">Esporta Backup</div>
+            <div class="desc">Scarica tutti i tuoi dati in formato JSON</div>
+          </div>
+          <button class="btn btn-ghost" style="width:auto" onclick="exportData()">Esporta</button>
+        </div>
+
+        <div class="settings-item">
+          <div class="info">
+            <div class="title">Importa Backup</div>
+            <div class="desc">Ripristina da un file JSON precedente</div>
+          </div>
+          <button class="btn btn-ghost" style="width:auto" onclick="document.getElementById('import-file').click()">Importa</button>
+        </div>
+
+        <input type="file" id="import-file" accept=".json" style="display:none" onchange="importData(event)">
+
+        <div class="settings-item">
+          <div class="info">
+            <div class="title" style="color:var(--red)">Cancella Tutto</div>
+            <div class="desc">Elimina definitivamente tutti i dati</div>
+          </div>
+          <button class="btn btn-ghost" style="width:auto;color:var(--red)" onclick="confirmClearAll()">Cancella</button>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">Info App</div>
+      <div style="font-size:0.82rem;color:var(--text-dim);line-height:1.6">
+        <p>🏋️ <strong>Gym Log & PR</strong></p>
+        <p style="margin-top:6px">Tutti i dati vengono salvati localmente sul tuo dispositivo.</p>
+        <p style="margin-top:6px">La formula 1RM usata è: <em>peso × (1 + reps/30)</em></p>
+      </div>
+    </div>
+  </div>
+
+</div><!-- /shell -->
+
+<!-- TOAST -->
+<div id="toast-wrap"></div>
+
+<!-- CONFIRM MODAL -->
+<div class="modal-overlay" id="confirm-modal">
+  <div class="modal-box">
+    <h3 id="modal-title">Sei sicuro?</h3>
+    <p id="modal-desc">Questa azione non può essere annullata.</p>
+    <div class="btn-row">
+      <button class="btn btn-ghost" onclick="closeModal()">Annulla</button>
+      <button class="btn btn-primary" id="modal-confirm-btn" style="background:var(--red)">Conferma</button>
+    </div>
+  </div>
+</div>
+
+<!-- Collegamento al file JavaScript esterno -->
+<script src="script.js"></script>
+
 </body>
 </html>
